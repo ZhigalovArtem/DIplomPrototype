@@ -25,6 +25,59 @@ class MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Padding(
+            padding: EdgeInsets.only(bottom: 0, left: 5, right: 0, top: 5),
+            child: Center(
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        print('Navigate to profile');
+                      },
+                      icon: const Icon(
+                        Icons.account_circle,
+                        color: Colors.white,
+                      )),
+                  GestureDetector(
+                    child: const MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Text(
+                        'Имя пользователя',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    onTap: () {
+                      print('Navigate to profile');
+                    },
+                  )
+                ],
+              ),
+            )),
+        centerTitle: true,
+        title: const Text(
+          'Название(логотип)',
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: const [
+          Icon(
+            Icons.notifications,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Icon(
+            Icons.nightlight_round_sharp,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Icon(Icons.language, color: Colors.white)
+        ],
+        backgroundColor: Colors.black,
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final railWidth = constraints.maxWidth * 0.1;
@@ -47,15 +100,15 @@ class MainPageState extends State<MainPage> {
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.person),
-                    label: Text('Профиль'),
+                    label: Text('Проверка заданий'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.settings),
-                    label: Text('Настройки'),
+                    icon: Icon(Icons.chat_bubble),
+                    label: Text('Чат'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.history),
-                    label: Text('История'),
+                    icon: Icon(Icons.align_horizontal_left),
+                    label: Text('Отчёты'),
                   ),
                 ],
               ),
