@@ -29,7 +29,8 @@ class MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Padding(
-            padding: EdgeInsets.only(bottom: 0, left: 5, right: 0, top: 5),
+            padding:
+                const EdgeInsets.only(bottom: 0, left: 5, right: 0, top: 5),
             child: Center(
               child: Row(
                 children: [
