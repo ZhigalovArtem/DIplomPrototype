@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web_chat/cursCards.dart';
 
 class GlavnayaPage extends StatefulWidget {
   const GlavnayaPage({super.key});
@@ -22,7 +23,6 @@ class _GlavnayaPageState extends State<GlavnayaPage> {
         children: [
           Container(
             height: MediaQuery.sizeOf(context).height * 0.07,
-            color: Colors.amber,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -79,6 +79,12 @@ class _GlavnayaPageState extends State<GlavnayaPage> {
                 ),
               ],
             ),
+          ),
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height *
+                0.81, // или конкретное значение (300)
+            child: DynamicCardGridView(),
           )
         ],
       ),

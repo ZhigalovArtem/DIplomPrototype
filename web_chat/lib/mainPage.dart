@@ -102,7 +102,7 @@ class MainPageState extends State<MainPage> {
                     label: Text('Главная'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.person),
+                    icon: Icon(Icons.checklist_sharp),
                     label: Text('Проверка заданий'),
                   ),
                   NavigationRailDestination(
