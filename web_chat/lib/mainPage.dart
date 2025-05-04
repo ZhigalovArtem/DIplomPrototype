@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web_chat/GlavnayaPage.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -12,8 +13,9 @@ class MainPageState extends State<MainPage> {
 
   // Список виджетов для отображения
   final List<Widget> _contentWidgets = [
-    const Center(
-        child: Text('Главная страница', style: TextStyle(fontSize: 24))),
+    const GlavnayaPage(),
+    // const Center(
+    //     child: Text('Главная страница', style: TextStyle(fontSize: 24))),
     const Center(
         child: Text('Профиль пользователя', style: TextStyle(fontSize: 24))),
     const Center(
