@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web_chat/addCurse.dart';
 import 'package:web_chat/cursCards.dart';
 
 class GlavnayaPage extends StatefulWidget {
@@ -9,6 +10,19 @@ class GlavnayaPage extends StatefulWidget {
 }
 
 class _GlavnayaPageState extends State<GlavnayaPage> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose(); // Правильное место для dispose()
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +44,13 @@ class _GlavnayaPageState extends State<GlavnayaPage> {
                 Container(
                   height: 50,
                   child: SearchBar(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value.toLowerCase();
+                      });
+                    },
+
                     // constraints:
                     //     const BoxConstraints(maxHeight: 50), // Уменьшаем высоту
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
@@ -53,39 +74,63 @@ class _GlavnayaPageState extends State<GlavnayaPage> {
                   padding: const EdgeInsets.only(
                       bottom: 0, left: 0, right: 10, top: 0),
                   child: GestureDetector(
-                      child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      width: 150,
-                      height: 50,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Создать курс',
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.black,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        width: 150,
+                        height: 50,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'Создать курс',
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  )),
+                    onTap: () {
+                      BuildContext dialog = context;
+                      var createCurse = showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child: Container(
+                              width: MediaQuery.sizeOf(context).width * 0.4,
+                              height: MediaQuery.sizeOf(context).height * 0.3,
+                              child: addCurse(
+                                context: context,
+                                function: refresh,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
           ),
-          Container(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height *
-                0.81, // или конкретное значение (300)
-            child: DynamicCardGridView(),
-          )
+          // Container(
+          //   width: MediaQuery.sizeOf(context).width,
+          //   height: MediaQuery.sizeOf(context).height *
+          //       0.81, // или конкретное значение (300)
+          //   child: DynamicCardGridView(),
+          // )
+
+          Expanded(
+            child: DynamicCardGridView(searchQuery: _searchQuery),
+          ),
         ],
       ),
     );
