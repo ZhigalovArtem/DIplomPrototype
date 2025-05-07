@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:web_chat/GlavnayaPage.dart';
+import 'package:web_chat/curseScreen.dart';
+import 'package:web_chat/mainPage.dart';
 import 'package:web_chat/variables.dart';
 
 class DynamicCardGridView extends StatefulWidget {
   final String searchQuery;
+  final Function function;
 
-  const DynamicCardGridView({super.key, required this.searchQuery});
+  const DynamicCardGridView(
+      {super.key, required this.searchQuery, required this.function});
 
   @override
   State<DynamicCardGridView> createState() => _DynamicCardGridViewState();
@@ -13,8 +18,8 @@ class DynamicCardGridView extends StatefulWidget {
 class _DynamicCardGridViewState extends State<DynamicCardGridView> {
   // final vars = variables();
 
-  final List<String> allItems =
-      List.generate(20, (index) => 'Курс ${index + 1}');
+  // final List<String> allItems =
+  //     List.generate(20, (index) => 'Курс ${index + 1}');
   late List<String> filteredItems;
 
   @override
@@ -34,11 +39,11 @@ class _DynamicCardGridViewState extends State<DynamicCardGridView> {
   void _filterItems() {
     if (widget.searchQuery.isEmpty) {
       setState(() {
-        filteredItems = allItems;
+        filteredItems = curses;
       });
     } else {
       setState(() {
-        filteredItems = allItems.where((item) {
+        filteredItems = curses.where((item) {
           return item.toLowerCase().contains(widget.searchQuery);
         }).toList();
       });
@@ -64,7 +69,14 @@ class _DynamicCardGridViewState extends State<DynamicCardGridView> {
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
-            onTap: () {},
+            onTap: () {
+              widget.function(filteredItems[index]);
+              // Navigator.pop(context);
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) => CurseScreen(),
+              //   fullscreenDialog: false,
+              // ));
+            },
             child: Center(
               child: Text(
                 filteredItems[index],

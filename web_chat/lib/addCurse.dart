@@ -20,40 +20,42 @@ class _addCurseState extends State<addCurse> {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: 1,
-      child: Column(
-        children: [
-          Form(
-            key: key,
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Название'),
-                  onSaved: (newValue) => name = newValue!,
-                  onChanged: (value) => name = value,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Введите название';
-                    }
-                    return null;
-                  },
-                ),
-              ],
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Form(
+              key: key,
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Название'),
+                    onSaved: (newValue) => name = newValue!,
+                    onChanged: (value) => name = value,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Введите название';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                var form = key.currentState;
-                if (form!.validate()) {
-                  form.save();
-                  Navigator.pop(context);
-                  addCurse(name);
-                  widget.function();
-                }
-              },
-              child: Text('Добавить'))
-        ],
+            ElevatedButton(
+                onPressed: () {
+                  var form = key.currentState;
+                  if (form!.validate()) {
+                    form.save();
+                    Navigator.pop(context);
+                    addCurse(name);
+                    widget.function();
+                  }
+                },
+                child: Text('Добавить'))
+          ],
+        ),
       ),
     );
   }
