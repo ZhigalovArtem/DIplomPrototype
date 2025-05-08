@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_chat/StudentsTable.dart';
+import 'package:web_chat/addStudentDialog.dart';
 
 class CurseScreen extends StatefulWidget {
   final Function function;
@@ -189,13 +190,29 @@ class _CurseScreenState extends State<CurseScreen> {
                             },
                           ),
                         ),
+
                         const SizedBox(
                           width: 10,
                         ),
 
                         //Кнопка "добавить учеников"
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            var addStudent = showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 0.7,
+                                    child: addStudentDialog(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                           child: MouseRegion(
                             cursor: SystemMouseCursors.click,
                             child: Container(
@@ -226,6 +243,8 @@ class _CurseScreenState extends State<CurseScreen> {
                       ],
                     )),
               ),
+
+              //Таблица учеников
               Padding(
                 padding: EdgeInsets.all(30),
                 child: Container(

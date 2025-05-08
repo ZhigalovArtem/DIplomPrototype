@@ -63,6 +63,7 @@ class _DynamicCardGridViewState extends State<DynamicCardGridView> {
       itemCount: filteredItems.length,
       itemBuilder: (context, index) {
         return Card(
+          color: const Color.fromARGB(255, 217, 217, 217),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
