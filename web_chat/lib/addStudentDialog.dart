@@ -1,24 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:web_chat/variables.dart';
 
 class addStudentDialog extends StatefulWidget {
-  const addStudentDialog({super.key});
+  final VoidCallback function;
+
+  const addStudentDialog({super.key, required this.function});
 
   @override
-  State<addStudentDialog> createState() => _addStudentDialog();
+  State<addStudentDialog> createState() => _addStudentDialogState();
 }
 
-class _addStudentDialog extends State<addStudentDialog> {
-  List<Map<String, dynamic>> addStudent_testList = [];
-  final addStudentFormKey = GlobalKey<FormState>();
-  String? studentName;
-  String? studentSurname;
-  String? studentEmail;
+class _addStudentDialogState extends State<addStudentDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final List<Map<String, dynamic>> _studentsList = [];
+  String? _studentName;
+  String? _studentSurname;
+  String? _studentEmail;
+  final _nameController = TextEditingController();
+  final _surnameController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  void _addStudent() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      setState(() {
+        _studentsList.add({
+          'name': '${_studentName} ${_studentSurname}',
+          'totalScore': 92,
+          'courseScore': 100,
+          'status': 'Статус',
+          'email': _studentEmail,
+        });
+
+        // Очищаем форму
+        _nameController.clear();
+        _surnameController.clear();
+        _emailController.clear();
+        _formKey.currentState!.reset();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(10),
-        child: Column(children: [
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
           Container(
             height: MediaQuery.sizeOf(context).height * 0.05,
             width: MediaQuery.sizeOf(context).width,
@@ -28,129 +65,82 @@ class _addStudentDialog extends State<addStudentDialog> {
               child: Text('Добавить учеников'),
             ),
           ),
-          Container(
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height * 0.35,
-              color: Colors.green,
-              child: addStudent_testList.length != 0
-                  ? ListView.builder(
-                      itemCount: addStudent_testList.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          child: Form(
-                            key: addStudentFormKey,
-                            child: Column(
-                              children: [
-                                Text('Ученик ${index + 2}'),
-                                TextFormField(
-                                  decoration:
-                                      const InputDecoration(labelText: 'email'),
-                                  onSaved: (newValue) =>
-                                      studentEmail = newValue!,
-                                  onChanged: (value) => studentEmail = value,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Введите почту';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                TextFormField(
-                                  decoration:
-                                      const InputDecoration(labelText: 'Имя'),
-                                  onSaved: (newValue) =>
-                                      studentName = newValue!,
-                                  onChanged: (value) => studentName = value,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Введите имя';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                TextFormField(
-                                  decoration: const InputDecoration(
-                                      labelText: 'Фамилия'),
-                                  onSaved: (newValue) =>
-                                      studentSurname = newValue!,
-                                  onChanged: (value) => studentSurname = value,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Введите фамилию';
-                                    }
-                                    return null;
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  : Container(
-                      child: Form(
-                        key: addStudentFormKey,
-                        child: Column(
-                          children: [
-                            Text('Ученик 1'),
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'email'),
-                              onSaved: (newValue) => studentEmail = newValue!,
-                              onChanged: (value) => studentEmail = value,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Введите почту';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Имя'),
-                              onSaved: (newValue) => studentName = newValue!,
-                              onChanged: (value) => studentName = value,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Введите имя';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Фамилия'),
-                              onSaved: (newValue) => studentSurname = newValue!,
-                              onChanged: (value) => studentSurname = value,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Введите фамилию';
-                                }
-                                return null;
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    )),
 
-          //Кнопка "Ещё один ученик"
-          GestureDetector(
-            onTap: () {
-              var form = addStudentFormKey.currentState;
-              if (form!.validate()) {
-                form.save();
-              }
-              addStudent_testList.add({
-                'email': studentEmail,
-                'name': studentName,
-                'surname': studentEmail
-              });
-              setState(() {});
-              print(addStudent_testList.length);
+          // Форма для ввода данных
+          Container(
+            // height: MediaQuery.sizeOf(context).height * 0.2,
+            width: MediaQuery.sizeOf(context).width * 0.3,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Имя'),
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Введите имя' : null,
+                    onSaved: (value) => _studentName = value,
+                  ),
+                  TextFormField(
+                    controller: _surnameController,
+                    decoration: const InputDecoration(labelText: 'Фамилия'),
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Введите фамилию' : null,
+                    onSaved: (value) => _studentSurname = value,
+                  ),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Введите email' : null,
+                    onSaved: (value) => _studentEmail = value,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Список добавленных учеников
+          Container(
+            height: MediaQuery.sizeOf(context).height * 0.2,
+            width: MediaQuery.sizeOf(context).width * 0.4,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: _studentsList.length,
+              itemBuilder: (context, index) {
+                final student = _studentsList[index];
+                return ListTile(
+                  title: Text('${student['name']}}'),
+                  subtitle: Text(student['email'] ?? ''),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      setState(() {
+                        _studentsList.removeAt(index);
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+
+          // Кнопка добавления
+          ElevatedButton(
+            onPressed: _addStudent,
+            child: const Text('Добавить ученика'),
+          ),
+
+          ElevatedButton(
+            onPressed: () {
+              students.addAll(_studentsList);
+              Navigator.pop(context);
+              widget.function();
             },
-            child: Container(width: 50, height: 50, color: Colors.black),
-          )
-        ]));
+            child: const Text('Сохранить'),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -133,9 +133,11 @@ class _CurseScreenState extends State<CurseScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      width: MediaQuery.sizeOf(context).width * 0.2,
-                      child: curseContentWidget(context),
-                    )
+                        width: MediaQuery.sizeOf(context).width * 0.2,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5, bottom: 5),
+                          child: curseContentWidget(context),
+                        ))
                   ],
                 )
               : Container(
@@ -148,6 +150,10 @@ class _CurseScreenState extends State<CurseScreen> {
 
 //Вкладка ученики
   Widget studentsWidget(BuildContext context) {
+    void test() {
+      setState(() {});
+    }
+
     return Container(
       height: MediaQuery.sizeOf(context).height * 0.84,
       // color: const Color.fromARGB(255, 255, 237, 183),
@@ -207,7 +213,7 @@ class _CurseScreenState extends State<CurseScreen> {
                                         MediaQuery.sizeOf(context).width * 0.4,
                                     height:
                                         MediaQuery.sizeOf(context).height * 0.7,
-                                    child: addStudentDialog(),
+                                    child: addStudentDialog(function: test),
                                   ),
                                 );
                               },
@@ -265,12 +271,35 @@ class _CurseScreenState extends State<CurseScreen> {
     );
   }
 
+  List<Map<String, dynamic>> modules = [
+    {'test': 1},
+    {'test': 2}
+  ];
+
 //Вкладка содержимое курса
   Widget curseContentWidget(BuildContext context) {
     return Container(
-      height: MediaQuery.sizeOf(context).height * 0.84,
-      color: const Color.fromARGB(255, 167, 196, 245),
-      child: Text('Curse content'),
+      height: MediaQuery.sizeOf(context).height * 0.83,
+      // color: const Color.fromARGB(255, 167, 196, 245),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          border: Border.all(color: Colors.grey, width: 1.5)),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: modules.length,
+                itemBuilder: (context, index) {},
+              ),
+            ),
+            ElevatedButton(onPressed: () {}, child: const Text('+ Модуль')),
+            ElevatedButton(
+                onPressed: () {}, child: const Text('Сохранить изменения'))
+          ],
+        ),
+      ),
     );
   }
 }
